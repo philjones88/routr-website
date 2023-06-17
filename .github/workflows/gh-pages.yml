@@ -10,9 +10,12 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: fonoster/routr
+        ref: gh-pages
         path: routr
-    - name: Copy charts to out directory
-      run: mkdir -p out && cp -R routr/.charts/ out/
+    - name: Create and populate out directory
+      run: |
+        mkdir -p out
+        cp -R routr/.charts/ out/
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
@@ -24,7 +27,8 @@ jobs:
         npm install
         npm run build
         cp -R build/* out/
-        cp -R site/assets out/site-assets
+        mkdir -p out/site-assets
+        cp -R site/assets/* out/site-assets/
         cp site/index.html out/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
