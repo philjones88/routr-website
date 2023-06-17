@@ -11,7 +11,9 @@ jobs:
       with:
         repository: fonoster/routr
         ref: gh-pages
-        path: routr    
+        path: routr
+    - name: Copy charts to out directory
+      run: cp -R routr/charts/ out/
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
@@ -25,8 +27,6 @@ jobs:
         mv build out
         mv site/assets out/site-assets
         mv site/index.html out/index.html
-    - name: Copy charts to out directory
-      run: cp -R routr/charts/ out/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
