@@ -14,7 +14,7 @@ jobs:
     - name: Create and populate out directory
       run: |
         mkdir -p out
-        cp -R routr/.charts/ out/
+        cp -a routr/.charts out/charts
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
@@ -25,9 +25,9 @@ jobs:
       run: |
         npm install
         npm run build
-        cp -R build/* out/
+        cp -a build out
         mkdir -p out/site-assets
-        cp -R site/assets/* out/site-assets/
+        cp -a site/assets out/site-assets
         cp site/index.html out/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
