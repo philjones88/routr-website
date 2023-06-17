@@ -29,7 +29,6 @@ jobs:
         cp -a /tmp/charts/* out/charts
         cp -a build/* out/
         cp -a site/assets/* out/site-assets
-        cp build/assets/favicon.ico out/site-assets/images/favicon.ico
         cp site/index.html out/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
