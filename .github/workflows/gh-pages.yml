@@ -11,22 +11,23 @@ jobs:
       with:
         repository: fonoster/routr
         path: routr
-    - name: Create and populate out directory
+    - name: Save charts directory
       run: |
-        mkdir -p out/charts
-        cp -a routr/.charts/* out/charts
+        mkdir -p /tmp/charts
+        cp -a routr/.charts/* /tmp/charts
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
       uses: actions/setup-node@v3
       with:
         node-version: "18.x"
-    - name: Build
+    - name: Build and populate out directory
       run: |
         npm install
         npm run build
-        cp -a build/* out
-        mkdir -p out/site-assets
+        mkdir -p out/charts out/site-assets
+        cp -a /tmp/charts/* out/charts
+        cp -a build/* out/
         cp -a site/assets/* out/site-assets
         cp site/index.html out/
     - name: Deploy
