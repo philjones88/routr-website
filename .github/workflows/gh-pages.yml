@@ -10,10 +10,9 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: fonoster/routr
-        ref: gh-pages
         path: routr
     - name: Copy charts to out directory
-      run: mkdir -p out && cp -R routr/charts/ out/
+      run: mkdir -p out && cp -R routr/.charts/ out/
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
