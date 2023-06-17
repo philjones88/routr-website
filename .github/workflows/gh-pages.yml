@@ -13,7 +13,7 @@ jobs:
         ref: gh-pages
         path: routr
     - name: Copy charts to out directory
-      run: cp -R routr/charts/ out/
+      run: mkdir -p out && cp -R routr/charts/ out/
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
@@ -24,9 +24,9 @@ jobs:
       run: |
         npm install
         npm run build
-        mv build out
-        mv site/assets out/site-assets
-        mv site/index.html out/index.html
+        cp -R build/* out/
+        cp -R site/assets out/site-assets
+        cp site/index.html out/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
