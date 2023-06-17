@@ -6,8 +6,14 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Checkout current repo
       uses: actions/checkout@v3
+    - name: Checkout routr repo
+      uses: actions/checkout@v3
+      with:
+        repository: fonoster/routr
+        ref: gh-pages
+        path: routr
     - name: Installing Node
       uses: actions/setup-node@v3
       with:
@@ -19,7 +25,8 @@ jobs:
         mv build out
         mv site/assets out/site-assets
         mv site/index.html out/index.html
-        echo "routr.io" > out/CNAME
+    - name: Copy charts to out directory
+      run: cp -R routr/charts/ out/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
@@ -28,4 +35,4 @@ jobs:
         external_repository: fonoster/routr
         publish_branch: gh-pages
         publish_dir: ./out
-        keep_files: true
+        cname: routr.io
