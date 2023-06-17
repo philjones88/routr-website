@@ -13,7 +13,7 @@ jobs:
         path: routr
     - name: Create and populate out directory
       run: |
-        mkdir -p out
+        mkdir -p out/charts
         cp -a routr/.charts/* out/charts
     - name: Checkout current repo
       uses: actions/checkout@v3
@@ -26,6 +26,7 @@ jobs:
         npm install
         npm run build
         cp -a build/* out
+        mkdir -p out/site-assets
         cp -a site/assets/* out/site-assets
         cp site/index.html out/
     - name: Deploy
