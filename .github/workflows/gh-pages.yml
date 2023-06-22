@@ -11,10 +11,11 @@ jobs:
       with:
         repository: fonoster/routr
         path: routr
+        ref: gh-pages
     - name: Save charts directory
       run: |
         mkdir -p /tmp/charts
-        cp -a routr/.charts/* /tmp/charts
+        cp -a routr/charts/* /tmp/charts
     - name: Checkout current repo
       uses: actions/checkout@v3
     - name: Installing Node
