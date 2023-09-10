@@ -110,8 +110,8 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'GitHub',
-                href: 'https://github.com/fonoster/routr',
+                label: 'GitHub Discussions',
+                href: 'https://github.com/fonoster/routr/discussions',
               },
               {
                 label: 'Discord',
