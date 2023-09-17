@@ -48,7 +48,7 @@ const sidebars = {
     //   ],
     // },
     'community',
-    // 'faqs',
+    'faqs',
     // 'changelog'
   ],
 };
