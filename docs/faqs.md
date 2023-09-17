@@ -16,7 +16,7 @@ Routr is similar to Kamalio and OpenSIPS because it is a programmable SIP server
 
 For example, adding more service instances can scale the Location service horizontally. This design also allows you to replace any component with your implementation. For example, you can implement your security Middleware and replace the default one.
 
-## What is the difference between Routr, FreeSWITCH, and Asterisk?
+## Is Routr a Media Server?
 
 Routr is not a media server. By itself, Routr does not handle media. However, you can use Routr as a frontend for FreeSWITCH or Asterisk. 
 

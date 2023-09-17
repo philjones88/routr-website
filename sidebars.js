@@ -10,7 +10,7 @@ const sidebars = {
       collapsed: true,
       items: [
         'overview/introduction',
-        // 'overview/architecture',
+        'overview/architecture',
         // 'overview/concepts',
         // 'overview/deploy-with-docker',
       ],
