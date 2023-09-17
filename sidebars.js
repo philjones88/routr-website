@@ -7,7 +7,7 @@ const sidebars = {
       type: 'category',
       label: 'Overview',
       collapsible: true,
-      collapsed: false,
+      collapsed: true,
       items: [
         'overview/introduction',
         // 'overview/architecture',
@@ -47,7 +47,7 @@ const sidebars = {
     //     'connect/nodesdk',
     //   ],
     // },
-    // 'community',
+    'community',
     // 'faqs',
     // 'changelog'
   ],
