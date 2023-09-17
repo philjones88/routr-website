@@ -12,7 +12,7 @@ const sidebars = {
         'overview/introduction',
         'overview/architecture',
         // 'overview/concepts',
-        // 'overview/deploy-with-docker',
+        'overview/deploy-with-docker',
       ],
     },
     // {
