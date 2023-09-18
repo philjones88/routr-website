@@ -74,7 +74,7 @@ const config = {
           },
           {
             href: 'https://fonoster.gumroad.com/l/the-future-of-programmable-sip-servers',
-            label: 'Official handbook',
+            label: 'Training',
             position: 'left',
           },
           {
@@ -101,7 +101,7 @@ const config = {
                 to: '/docs/welcome',
               },
               {
-                label: 'Official handbook',
+                label: 'Training',
                 href: 'https://fonoster.gumroad.com/l/the-future-of-programmable-sip-servers',
               }
             ],

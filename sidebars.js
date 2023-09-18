@@ -11,19 +11,10 @@ const sidebars = {
       items: [
         'overview/introduction',
         'overview/architecture',
-        // 'overview/concepts',
+        'overview/concepts',
         'overview/deploy-with-docker',
       ],
     },
-    // {
-    //   type: 'category',
-    //   label: 'Alterations API',
-    //   collapsible: true,
-    //   collapsed: true,
-    //   items: [
-    //     'alterations/introduction',
-    //   ]
-    // },
     // {
     //   type: 'category',
     //   label: 'Connect Mode',
