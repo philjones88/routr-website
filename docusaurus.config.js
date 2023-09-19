@@ -39,6 +39,13 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: '2.0.0',
+              path: '2.0.0',
+            },
+          },
           sidebarPath: require.resolve('./sidebars.js'),
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -98,7 +105,7 @@ const config = {
             items: [
               {
                 label: 'Docs',
-                to: '/docs/welcome',
+                to: '/docs/2.0.0/overview/introduction',
               },
               {
                 label: 'Training',

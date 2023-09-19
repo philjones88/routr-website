@@ -117,7 +117,6 @@ const sidebars = {
         'tutorials/load-balancing-asterisk-with-routr',
         'tutorials/intercom-system-with-routr-and-kubernetes',
         'tutorials/ephemeral-agents-in-the-browser',
-        'tutorials/intercom-system-with-routr-and-kubernetes',
         'tutorials/deploying-to-civo-with-helm',
         // 'tutorials/connecting-routr-to-aws-chime',
         // 'tutorials/connecting-routr-to-twilio',
@@ -125,6 +124,7 @@ const sidebars = {
       ]
     },
     'community',
+    'contributing',
     'faqs',
     'changelog'
   ],

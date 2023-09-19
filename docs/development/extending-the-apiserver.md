@@ -1,3 +1,3 @@
-# Extending the API Server
+# Extending the APIServer
 
 Coming soon.
