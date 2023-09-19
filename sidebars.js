@@ -53,16 +53,16 @@ const sidebars = {
         //     'connect/ctl/commands',
         //   ]
         // },
-        // {
-        //   type: 'category',
-        //   label: 'Node.js SDK',
-        //   collapsible: true,
-        //   collapsed: true,
-        //   items: [
-        //     'connect/nodesdk/overview',
-        //     'connect/nodesdk/api',
-        //   ]
-        // },
+        {
+          type: 'category',
+          label: 'Node.js SDK',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'connect/nodesdk/overview',
+            'connect/nodesdk/sdk',
+          ]
+        },
         // 'connect/webrtc-interoperability',
         // 'connect/securing-the-signaling-channel',
         // 'connect/sending-call-events-to-nats'

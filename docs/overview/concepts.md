@@ -205,34 +205,6 @@ new Processor({ bindAddr: "0.0.0.0:51904", name: "echo" }).listen(
 )
 ```
 
-## Connect Processor
-
-The Connect Processor is a built-in Processor with the necessary logic to implement the "SIP Connect v1.1" specification.
-
-The Connect Processor serves as a basic PBX and is described in detail by the [CONNECT](https://github.com/fonoster/routr/blob/main/CONNECT.md) specification as part of the Routr ecosystem.
-
-The Connect Processor introduces features the SIP Connect v1.1 specification doesn't include, like WebRTC support when paired with RTPEngine.
-
-The Connect Processor defines five routing types.
-
-First, we have `agent-to-agent` calling, which allows an Agent to call another Agent in the same domain.
-
-Next, we have `agent-to-pstn`, which allows an agent to call numbers in the Private Switch Telephone Network (PSTN) using a Number and Trunking.
-
-`from-pstn` comes next, outlining how a call from the PSTN can connect to an Agent or a Peer through a Number and Trunking.
-
-Next, we have `peer-to-pstn`, which describes how a Peer service such as Asterisk can reach the PSTN.
-
-Finally, we have `agent-to-peer`, used when an Agent wants to communicate directly with a Peer.
-
-The Connect Processor defines a set of resources for the cases previously mentioned. So, we have entities that represent Agents, Peers, Domains, Trunks, and Numbers.
-
-In addition to these resources, the Connect Processor maintains separate resources to manage authentication: the Access Control List (ACL) and the Credentials resource.
-
-The ACL protects your Trunks and Peers by defining a list of allowed and denied IP addresses.
-
-Peers and Agents use the Credentials resource to allow for registration from PBX, Media Servers, and Softphones.
-
 ## Alterations
 
 Alterations let you modify SIP messages. We implement Alterations as Javascript functions that a Processor or Middleware executes.
