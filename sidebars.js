@@ -17,6 +17,55 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Development',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        'development/introduction',
+        'development/quick-start',
+        'development/development-mode-with-gitpod',
+        {
+          type: 'category',
+          label: 'Components',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'development/components/overview',
+            'development/components/edgeport',
+            'development/components/location',
+            'development/components/registry',
+            'development/components/requester',
+            'development/components/rtprelay',
+            'development/components/pgdata',
+            'development/components/simpledata',
+            'development/components/simpleauth',
+          ],
+        },
+
+        {
+          type: 'category',
+          label: 'Alterations API',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'development/alterations/overview',
+            'development/alterations/methods',
+          ],
+        },
+        'development/building-a-processor',
+        'development/building-a-middleware',
+        'development/extending-the-apiserver',
+        'development/extending-the-ctl',
+        'development/orchestration-with-docker',
+        'development/orchestration-with-kubernetes',
+        'development/testing-with-seet',
+        'development/metrics-events-logs-and-traces',
+        'development/building-a-chat-application',
+        'development/building-a-scaip-processor',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Connect Mode',
       collapsible: true,
       collapsed: true,
@@ -59,9 +108,25 @@ const sidebars = {
         'connect/sending-call-events-to-nats'
       ],
     },
+    {
+      type: 'category',
+      label: 'Tutorials',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        'tutorials/load-balancing-asterisk-with-routr',
+        'tutorials/intercom-system-with-routr-and-kubernetes',
+        'tutorials/ephemeral-agents-in-the-browser',
+        'tutorials/intercom-system-with-routr-and-kubernetes',
+        'tutorials/deploying-to-civo-with-helm',
+        // 'tutorials/connecting-routr-to-aws-chime',
+        // 'tutorials/connecting-routr-to-twilio',
+        // 'tutorials/connecting-routr-microsoft-teams',
+      ]
+    },
     'community',
     'faqs',
-    // 'changelog'
+    'changelog'
   ],
 };
 
