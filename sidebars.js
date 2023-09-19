@@ -22,7 +22,7 @@ const sidebars = {
       collapsed: true,
       items: [
         'connect/introduction',
-        // 'connect/concepts',
+        'connect/concepts',
         // 'connect/components',
         // {
         //   type: 'category',
