@@ -43,16 +43,16 @@ const sidebars = {
         //     'connect/guides/routr-as-asterisk-frontend',
         //   ]
         // },
-        // {
-        //   type: 'category',
-        //   label: 'Command-line Tool',
-        //   collapsible: true,
-        //   collapsed: true,
-        //   items: [
-        //     'connect/ctl/overview',
-        //     'connect/ctl/commands',
-        //   ]
-        // },
+        {
+          type: 'category',
+          label: 'Command-line Tool',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'connect/command-line/overview',
+            'connect/command-line/ctl',
+          ]
+        },
         {
           type: 'category',
           label: 'Node.js SDK',
