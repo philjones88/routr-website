@@ -55,8 +55,7 @@ const sidebars = {
         },
         'connect/home-or-office-setup',
         'connect/webrtc-support',
-        'connect/securing-the-signaling',
-        'connect/securing-the-api',
+        'connect/securing-the-server',
         'connect/sending-call-events-to-nats'
       ],
     },
