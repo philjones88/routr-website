@@ -45,7 +45,7 @@ const sidebars = {
         // },
         {
           type: 'category',
-          label: 'Command-line Tool',
+          label: 'Command-line tool',
           collapsible: true,
           collapsed: true,
           items: [
@@ -63,7 +63,7 @@ const sidebars = {
             'connect/nodesdk/sdk',
           ]
         },
-        // 'connect/webrtc-interoperability',
+        'connect/webrtc-support',
         // 'connect/securing-the-signaling-channel',
         // 'connect/sending-call-events-to-nats'
       ],
