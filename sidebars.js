@@ -33,19 +33,9 @@ const sidebars = {
             'connect/quick-start/kubernetes',
           ]
         },
-        // {
-        //   type: 'category',
-        //   label: 'Guides',
-        //   collapsible: true,
-        //   collapsed: true,
-        //   items: [
-        //     'connect/guides/home-or-office-setup',
-        //     'connect/guides/routr-as-asterisk-frontend',
-        //   ]
-        // },
         {
           type: 'category',
-          label: 'Command-line tool',
+          label: 'Command-Line Tool',
           collapsible: true,
           collapsed: true,
           items: [
@@ -63,9 +53,11 @@ const sidebars = {
             'connect/nodesdk/sdk',
           ]
         },
+        'connect/home-or-office-setup',
         'connect/webrtc-support',
-        // 'connect/securing-the-signaling-channel',
-        // 'connect/sending-call-events-to-nats'
+        'connect/securing-the-signaling',
+        'connect/securing-the-api',
+        'connect/sending-call-events-to-nats'
       ],
     },
     'community',

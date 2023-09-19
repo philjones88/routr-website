@@ -40,7 +40,7 @@ Downstream Processors and Middleware all use the same gRPC interface. Because th
 
 A minimal EdgePort configuration looks as follows:
 
-"`yaml
+```yaml
 # Minimal EdgePort configuration
 kind: EdgePort
 apiVersion: v2beta1
@@ -194,7 +194,8 @@ Processors are a way to extend the functionality of Routr, and implementors can 
 The simplest possible Processor is the "Echo Processor," which returns the SIP Message to the EdgePort. The following example shows how to create an Echo Processor using Node.js.
 
 ```javascript
-import Processor, { MessageRequest, Response } from "@routr/processor"
+const Processor = require("@routr/processor").default;
+const { MessageRequest, Response } = require("@routr/processor");
 
 new Processor({ bindAddr: "0.0.0.0:51904", name: "echo" }).listen(
   (req: MessageRequest, res: Response) => {
@@ -213,7 +214,7 @@ The methods for Alterations adhere to a functional programming style. In this ap
 
 ```typescript
 const { Alterations } = require('@routr/processor')
-import { pipe } from "fp-ts/function";
+const { pipe } = require("fp-ts/function");
 
 function messageProcessing(req: MessageRequest, route: Route): MessageRequest {
   const requestOut = pipe(
@@ -253,7 +254,7 @@ Available configurations include the following:
 
 Here is an example of a Trunk configuration that requires registration:
 
-"`yaml
+```yaml
 kind: Registry
 apiVersion: v2beta1
 spec:

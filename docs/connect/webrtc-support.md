@@ -1,4 +1,4 @@
-# WebRTC support
+# WebRTC Support
 
 The Connect Processor supports interoperability with WebRTC clients. This means that you can use any SIP client that also supports WebRTC to make and receive calls, such as with the JavaScript libraries SIP.js and JsSIP for example. However, because WebRTC mandates the use of specific codecs, transport protocols, and a certain version of RTP that might differ from those used by legacy SIP clients, you will need to make additional configuration changes to your server.
 
