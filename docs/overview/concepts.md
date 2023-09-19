@@ -1,0 +1,304 @@
+# Concepts
+
+Routr's approach to SIP is different from other SIP servers. For example, Routr aims to be cloud-native first. It is designed to run in a containerized environment, like Docker or Kubernetes, and features a microservices architecture.
+
+The following concepts are essential to understand when working with Routr, but remember that we will cover them in more detail in later sections.
+
+## EdgePort
+
+The EdgePort component sits at the network's edge and is part of the CORE specification. It is responsible for receiving and forwarding SIP Messages.
+
+The EdgePort service takes SIP Messages and converts them into protobuf messages. In addition to the SIP Message, we add all the metadata required for routing, including the IP of the entry point of the request, which allows us to calculate the correct path for the message statelessly.
+
+Another essential aspect of EdgePort is that it cooperates to ensure messages follow the correct path. That means you don't need a specialized load balance in front of Routr.
+
+Below is a diagram that demonstrates the collaboration between EdgePort and the Message Dispatcher
+
+<img src="/img/edgeport.png" alt="EdgePort diagram" width="500"/>
+
+One important consideration when deploying a network is the protocol for Transport. We recommend always using a connection-oriented transport such as `TCP`,`TLS`, `WS`, or `WSS`.
+
+To configure the EdgePort, you must provide a YAML or JSON configuration with the following structure.
+
+| Property                     | Description                                                                 | Required |
+|------------------------------|-----------------------------------------------------------------------------|----------|
+| `ref`                        | Reference to the EdgePort                                                   | Yes      |
+| `metadata.region`            | Region where the EdgePort is located (reserved for future use)              | No       |
+| `spec.unknownMethodAction`   | What to do if an incoming request type is not allowed (reserved for future use) | No       |
+| `spec.transport`             | Acceptable Transport Protocols                                              | Yes      |
+| `spec.transport[*].protocol` | Transport protocol                                                          | Yes      |
+| `spec.transport[*].bindAddr` | Ipv4 interface to accept requests on                                        | No       |
+| `spec.transport[*].port`     | Port to listen on                                                           | Yes      |
+| `spec.methods`               | Acceptable SIP Methods                                                      | Yes      |
+| `spec.processor`             | Adjacent service for message routing                                        | Yes      |
+| `spec.processor.addr`        | Address of the adjacent service                                             | Yes      |
+| `spec.localnets`             | Networks considered to be in the same local network                         | No       |
+| `spec.externalAddrs`         | EdgePort external ip addresses                                              | No       |
+| `spec.bindAddr`              | Ipv4 interface to accept requests on                                        | No       |
+
+Downstream Processors and Middleware all use the same gRPC interface. Because they all share the same structure, we can create processing services in any programming language while maintaining the same core functionality.
+
+A minimal EdgePort configuration looks as follows:
+
+"`yaml
+# Minimal EdgePort configuration
+kind: EdgePort
+apiVersion: v2beta1
+ref: edgeport-01
+metadata:
+  region: default
+spec:
+  processor:
+    addr: dispatcher:51901
+  methods:
+    - REGISTER
+    - INVITE
+    - ACK
+    - BYE
+    - CANCEL
+  transport:
+    - protocol: udp
+      port: 5060
+```
+
+# Message Dispatcher
+
+The Message Dispatcher, or Dispatcher for short, is a service between the EdgePort and the Processor. It is responsible for routing SIP Messages to the correct Processor.
+
+The Dispatcher is a stateless service that uses a simple algorithm to determine the correct processing service. The component takes the SIP Messages and applies a matching function to choose the proper Processor. 
+
+The matching function is a Javascript function that takes the SIP Message and returns a boolean value. The Dispatcher will forward the message to the first Processor that matches the SIP Message.
+
+You can configure the Dispatcher using a YAML or JSON file that has the following structure:
+
+| Property | Description | Required |
+|----------|-------------|----------|
+| `ref` | Reference to the Dispatcher | Yes |
+| `spec.bindAddr` | Ipv4 interface to accept requests on | No |
+| `spec.processors` | List of Processors | Yes |
+| `spec.processors[*].ref` | Reference to the Processor | Yes |
+| `spec.processors[*].matchFunc` | Matching function | Yes |
+| `spec.processors[*].addr` | Address of the Processor | Yes |
+| `spec.processors[*].methods` | List of SIP Methods supported by the Processor | Yes |
+| `spec.middlewares` | List of Middlewares | No |
+| `spec.middlewares[*].ref` | Reference to the Middleware | Yes |
+| `spec.middlewares[*].addr` | Address of the Middleware | Yes |
+| `spec.middlewares[*].postProcessor` | Weather to process the SIP Message after the Processor | Yes |
+
+An important consideration when creating a matching function is that it will serve the first Processor that matches the SIP Message. The order of the Processors and the matching function are matters to ensure the correct routing. 
+
+The `matchFunc` is a javascript function that takes a SIP Message and returns a boolean value. It leverages the JSON representation of the `SIPMessage` protobuf. The following examples show typical matching functions:
+
+Match all SIP Messages.
+
+```javascript
+req => true
+```
+
+Match SIP Messages with a specific method.
+
+```javascript
+req => req.method === "MESSAGE"
+```
+
+Match SIP Messages with a specific method and a specific header.
+
+```javascript
+req => req.method === "MESSAGE" && req.message.from.address.uri.user === "alice"
+```
+
+Match SIP Messages with a specific `User-Agent` header.
+
+```javascript
+req => req.message.extensions.find(e => e.name === "User-Agent" && e.value.includes("Zoiper"))
+```
+
+This example features a Dispatcher that matches MESSAGE requests to the IM Processor and all others to the Connect Processor.
+
+```yaml
+kind: MessageDispatcher
+apiVersion: v2beta1
+ref: message-dispatcher
+spec:
+  bindAddr: 0.0.0.0:51901
+  processors:
+    - ref: im-processor
+      addr: im:51904
+      matchFunc: req => req.method === "MESSAGE"
+      methods:
+        - MESSAGE
+    - ref: connect-processor
+      addr: connect:51904
+      matchFunc: req => true
+      methods: 
+        - REGISTER
+        - INVITE
+        - ACK 
+        - BYE
+        - CANCEL
+```
+
+## Location service
+
+In Routr, the Location Service serves two primary purposes. The first purpose is to locate the route to an endpoint in the location table. The second is to load balance requests.
+
+Routr's load balancing is done at the Location Service level and occurs in the context of Peers. To better explain this, let's take a closer look at some applications where this is useful.
+
+For example, you can create a Peer configuration and share the same credentials if you have multiple Asterisk servers. By doing this, Routr will send a request to the instance of Asterisk according to the load-balancing algorithm you have selected.
+
+Two balancing algorithms are available. The first is `round-robin`, and the second is `least-sessions`.
+
+Now, let's consider a situation where you want to deploy the server and send all PSTN traffic to a conference room in Asterisk. For such a scenario, you must configure a Peer to represent your feature server and a Number to route calls from the PSTN.
+
+To do this, create a Peer configuration for your Asterisk server similar to the following:
+
+```yaml
+apiVersion: v2beta1
+kind: Peer
+ref: peer-01
+metadata:
+  name: Asterisk (Media Server)
+spec:
+  aor: backend:conference
+  username: asterisk
+  credentialsRef: credentials-01
+  loadBalancing:
+    withSessionAffinity: true
+    algorithm: least-sessions
+```
+
+Notice that the load balancing section sets the `withSessionAffinity` to `true`. We need session affinity to ensure that all calls related to the conference arrive on the same Asterisk server. 
+
+Every Asterisk server that registers using the `asterisk` username will join the same group under the `backend:conference` Address of Record (AOR).
+
+## Middlewares
+
+Middleware resembles Processors because they both use the same protobuf contract but serve different purposes. While Processors hold feature logic, Middlewares addresses cross-cutting concerns like authentication, authorization, rate limiting, etc.
+
+Some use cases for Middlewares include:
+
+- Authentication and Authorization
+- Rate limiting
+- Circuit breaking
+- Logging, Metrics, and Tracing
+- Request and response validation
+- Data transformation and normalization
+- CDRs generation
+
+Processors and Middlewares differ in that you execute Middlewares in a chain, making their execution order crucial. Additionally, you can include multiple Middlewares in your deployment but only one Processor.
+
+## Processors
+
+Processors are a way to extend the functionality of Routr, and implementors can add custom logic to the system. Processors are implemented as a gRPC service and use the [Alterations API](/docs/overview/concepts#alterations) to modify SIP messages.
+
+The simplest possible Processor is the "Echo Processor," which returns the SIP Message to the EdgePort. The following example shows how to create an Echo Processor using Node.js.
+
+```javascript
+import Processor, { MessageRequest, Response } from "@routr/processor"
+
+new Processor({ bindAddr: "0.0.0.0:51904", name: "echo" }).listen(
+  (req: MessageRequest, res: Response) => {
+    logger.verbose("got new request: ")
+    logger.verbose(JSON.stringify(req, null, " "))
+    res.sendOk()
+  }
+)
+```
+
+## Connect Processor
+
+The Connect Processor is a built-in Processor with the necessary logic to implement the "SIP Connect v1.1" specification.
+
+The Connect Processor serves as a basic PBX and is described in detail by the [CONNECT](https://github.com/fonoster/routr/blob/main/CONNECT.md) specification as part of the Routr ecosystem.
+
+The Connect Processor introduces features the SIP Connect v1.1 specification doesn't include, like WebRTC support when paired with RTPEngine.
+
+The Connect Processor defines five routing types.
+
+First, we have `agent-to-agent` calling, which allows an Agent to call another Agent in the same domain.
+
+Next, we have `agent-to-pstn`, which allows an agent to call numbers in the Private Switch Telephone Network (PSTN) using a Number and Trunking.
+
+`from-pstn` comes next, outlining how a call from the PSTN can connect to an Agent or a Peer through a Number and Trunking.
+
+Next, we have `peer-to-pstn`, which describes how a Peer service such as Asterisk can reach the PSTN.
+
+Finally, we have `agent-to-peer`, used when an Agent wants to communicate directly with a Peer.
+
+The Connect Processor defines a set of resources for the cases previously mentioned. So, we have entities that represent Agents, Peers, Domains, Trunks, and Numbers.
+
+In addition to these resources, the Connect Processor maintains separate resources to manage authentication: the Access Control List (ACL) and the Credentials resource.
+
+The ACL protects your Trunks and Peers by defining a list of allowed and denied IP addresses.
+
+Peers and Agents use the Credentials resource to allow for registration from PBX, Media Servers, and Softphones.
+
+## Alterations
+
+Alterations let you modify SIP messages. We implement Alterations as Javascript functions that a Processor or Middleware executes.
+
+The methods for Alterations adhere to a functional programming style. In this approach, one function's output becomes the following function's input. Here's an example of how to use the Alterations API to change a SIP message:
+
+```typescript
+const { Alterations } = require('@routr/processor')
+import { pipe } from "fp-ts/function";
+
+function messageProcessing(req: MessageRequest, route: Route): MessageRequest {
+  const requestOut = pipe(
+    reqIn,
+    //example of an Alteration method with two arities
+    Alterations.addSelfVia(route),
+    Alterations.addSelfRecordRoute(route),
+    Alterations.addRouteToPeerEdgePort(route),
+    Alterations.addRouteToNextHop(route),
+    //example of an Alteration method with one arity
+    Alterations.addXEdgePortRef,
+    Alterations.decreaseMaxForwards
+  )
+
+  return requestOut
+}
+```
+
+If you need to create a new Alteration, we suggest you follow a similar approach to the one used by the Alterations API. That is, create a function that takes a SIP message as input and returns a SIP message as output.
+
+## Registry service
+
+The Registry component sends outbound registration to trunking services. You need this component when you set the sendRegister option of your Trunks to true. To send requests to the EdgePort, the Registry service depends on the Requester service.
+
+Available configurations include the following:
+
+| Property             | Description                                         | Required |
+|----------------------|-----------------------------------------------------|----------|
+| requesterAddr        | Address of service to send requests                 | Yes      |
+| apiAddr              | Address of API service                              | Yes      |
+| registerInterval     | Interval to send registration requests              | Yes      |
+| cache                | Cache configuration                                 | Yes      |
+| methods              | Acceptable SIP Methods (reserved for future use)    | No       |
+| edgePorts            | List of EdgePorts for outbound registrations        | Yes      |
+| edgePorts.address    | Address of EdgePort                                 | Yes      |
+| edgePorts.region     | Region of EdgePort (reserved for future use)        | No       |
+
+Here is an example of a Trunk configuration that requires registration:
+
+"`yaml
+kind: Registry
+apiVersion: v2beta1
+spec:
+  requesterAddr: requester:51909
+  apiAddr: apiserver:51907
+  registerInterval: 20
+  cache:
+    provider: memory
+  methods:
+    - INVITE
+    - MESSAGE
+  edgePorts:
+    - address: sip01.edgeport.net:5060
+      region: us-east1
+    - address: sip02.edgeport.net:6060
+```
+
+## Requester
+
+The Requester is a service that takes a gRPC request, converts it into a SIP message, and forwards it to its destination. It is a dependency of the Registry service.
