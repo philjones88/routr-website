@@ -23,17 +23,16 @@ const sidebars = {
       items: [
         'connect/introduction',
         'connect/concepts',
-        // 'connect/components',
-        // {
-        //   type: 'category',
-        //   label: 'Quick Start',
-        //   collapsible: true,
-        //   collapsed: true,
-        //   items: [
-        //     'connect/quick-start/docker',
-        //     'connect/quick-start/kubernetes',
-        //   ]
-        // },
+        {
+          type: 'category',
+          label: 'Quick Start',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'connect/quick-start/docker',
+            'connect/quick-start/kubernetes',
+          ]
+        },
         // {
         //   type: 'category',
         //   label: 'Guides',
