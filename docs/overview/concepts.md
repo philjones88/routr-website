@@ -18,30 +18,12 @@ Below is a diagram that demonstrates the collaboration between EdgePort and the 
 
 One important consideration when deploying a network is the protocol for Transport. We recommend always using a connection-oriented transport such as `TCP`,`TLS`, `WS`, or `WSS`.
 
-To configure the EdgePort, you must provide a YAML or JSON configuration with the following structure.
-
-| Property                     | Description                                                                 | Required |
-|------------------------------|-----------------------------------------------------------------------------|----------|
-| `ref`                        | Reference to the EdgePort                                                   | Yes      |
-| `metadata.region`            | Region where the EdgePort is located (reserved for future use)              | No       |
-| `spec.unknownMethodAction`   | What to do if an incoming request type is not allowed (reserved for future use) | No       |
-| `spec.transport`             | Acceptable Transport Protocols                                              | Yes      |
-| `spec.transport[*].protocol` | Transport protocol                                                          | Yes      |
-| `spec.transport[*].bindAddr` | Ipv4 interface to accept requests on                                        | No       |
-| `spec.transport[*].port`     | Port to listen on                                                           | Yes      |
-| `spec.methods`               | Acceptable SIP Methods                                                      | Yes      |
-| `spec.processor`             | Adjacent service for message routing                                        | Yes      |
-| `spec.processor.addr`        | Address of the adjacent service                                             | Yes      |
-| `spec.localnets`             | Networks considered to be in the same local network                         | No       |
-| `spec.externalAddrs`         | EdgePort external ip addresses                                              | No       |
-| `spec.bindAddr`              | Ipv4 interface to accept requests on                                        | No       |
-
 Downstream Processors and Middleware all use the same gRPC interface. Because they all share the same structure, we can create processing services in any programming language while maintaining the same core functionality.
 
 A minimal EdgePort configuration looks as follows:
 
 ```yaml
-# Minimal EdgePort configuration
+# Example EdgePort configuration
 kind: EdgePort
 apiVersion: v2beta1
 ref: edgeport-01
