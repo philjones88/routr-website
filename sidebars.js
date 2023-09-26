@@ -32,7 +32,7 @@ const sidebars = {
           items: [
             'development/components/overview',
             'development/components/edgeport',
-            // 'development/components/dispatcher',
+            'development/components/dispatcher',
             // 'development/components/location',
             // 'development/components/registry',
             // 'development/components/requester',

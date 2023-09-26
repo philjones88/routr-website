@@ -49,51 +49,9 @@ The Message Dispatcher, or Dispatcher for short, is a service between the EdgePo
 
 The Dispatcher is a stateless service that uses a simple algorithm to determine the correct processing service. The component takes the SIP Messages and applies a matching function to choose the proper Processor. 
 
-The matching function is a Javascript function that takes the SIP Message and returns a boolean value. The Dispatcher will forward the message to the first Processor that matches the SIP Message.
+The matching function is a Javascript function that takes the SIP Message and returns a boolean value. The Dispatcher will forward the message to the first Processor that matches the criteria. Therefore, the order of the Processors and the matching function is essential to ensure the correct routing. 
 
-You can configure the Dispatcher using a YAML or JSON file that has the following structure:
-
-| Property | Description | Required |
-|----------|-------------|----------|
-| `ref` | Reference to the Dispatcher | Yes |
-| `spec.bindAddr` | Ipv4 interface to accept requests on | No |
-| `spec.processors` | List of Processors | Yes |
-| `spec.processors[*].ref` | Reference to the Processor | Yes |
-| `spec.processors[*].matchFunc` | Matching function | Yes |
-| `spec.processors[*].addr` | Address of the Processor | Yes |
-| `spec.processors[*].methods` | List of SIP Methods supported by the Processor | Yes |
-| `spec.middlewares` | List of Middlewares | No |
-| `spec.middlewares[*].ref` | Reference to the Middleware | Yes |
-| `spec.middlewares[*].addr` | Address of the Middleware | Yes |
-| `spec.middlewares[*].postProcessor` | Weather to process the SIP Message after the Processor | Yes |
-
-An important consideration when creating a matching function is that it will serve the first Processor that matches the SIP Message. The order of the Processors and the matching function are matters to ensure the correct routing. 
-
-The `matchFunc` is a javascript function that takes a SIP Message and returns a boolean value. It leverages the JSON representation of the `SIPMessage` protobuf. The following examples show typical matching functions:
-
-Match all SIP Messages.
-
-```javascript
-req => true
-```
-
-Match SIP Messages with a specific method.
-
-```javascript
-req => req.method === "MESSAGE"
-```
-
-Match SIP Messages with a specific method and a specific header.
-
-```javascript
-req => req.method === "MESSAGE" && req.message.from.address.uri.user === "alice"
-```
-
-Match SIP Messages with a specific `User-Agent` header.
-
-```javascript
-req => req.message.extensions.find(e => e.name === "User-Agent" && e.value.includes("Zoiper"))
-```
+The `matchFunc` is a javascript function that leverages the JSON representation of the [SIPMessage](https://github.com/fonoster/routr/blob/main/mods/common/src/protos/sipmessage.proto) protobuf. 
 
 This example features a Dispatcher that matches MESSAGE requests to the IM Processor and all others to the Connect Processor.
 
@@ -118,6 +76,32 @@ spec:
         - ACK 
         - BYE
         - CANCEL
+```
+
+The following examples show typical matching functions:
+
+Match all SIP Messages.
+
+```javascript
+req => true
+```
+
+Match SIP Messages with a specific method.
+
+```javascript
+req => req.method === "MESSAGE"
+```
+
+Match SIP Messages with a specific method and a specific header.
+
+```javascript
+req => req.method === "MESSAGE" && req.message.from.address.uri.user === "alice"
+```
+
+Match SIP Messages with a specific `User-Agent` header.
+
+```javascript
+req => req.message.extensions.find(e => e.name === "User-Agent" && e.value.includes("Zoiper"))
 ```
 
 ## Location service

@@ -1,35 +1,35 @@
 # EdgePort
 
-The EdgePort component accepts SIP Messages, parses them into protobuf, and sends them to the Message Dispatcher, or Dispatcher for short. After a SIP Message is processed, the EdgePort will forward the SIP Message to the next hop.
+The EdgePort component accepts SIP Messages, parses them into protobuf, and sends them to the Message Dispatcher. After a SIP Message is processed, the EdgePort will forward the SIP Message to the next hop.
 
 The following diagram shows the relation between a SIP client, the EdgePort, and the Dispatcher. 
 
-While we show the Dispatcher, we could also use a Processor. Both components share the same protobuf. However, the Dispatcher is required when you expect to have multiple Processors.
-
-For example, if your use case requires having one Processor for SIP messages and another for SMS messages, you will need to use a Dispatcher. The Dispatcher will be responsible for routing the SIP messages to the SIP Processor and the SMS messages to the SMS Processor.
-
-If you only have one Processor, you can use the Processor directly.
-
 ```text
- ┌──────────┐  ┌────────┐ ┌──────────────────┐
- │SIP Client│  │EdgePort│ │Message Dispatcher│
- └────┬─────┘  └───┬────┘ └──────┬───────────┘
-      │            │             │        
-      │SIP request │             │        
-      │───────────>│             │        
-      │            │             │        
-      │            │gRPC request │        
-      │            │────────────>│        
-      │            │             │        
-      │            │gRPC response│        
-      │            │<────────────│        
-      │            │             │        
-      │SIP response│             │        
-      │<───────────│             │        
- ┌────┴─────┐  ┌───┴────┐ ┌──────┴───────────┐
- │SIP Client│  │EdgePort│ │Message Dispatcher│
- └──────────┘  └────────┘ └──────────────────┘
+┌──────────┐  ┌────────┐ ┌──────────────────┐
+│SIP Client│  │EdgePort│ │Message Dispatcher│
+└────┬─────┘  └───┬────┘ └──────┬───────────┘
+     │            │             │        
+     │SIP request │             │        
+     │───────────>│             │        
+     │            │             │        
+     │            │gRPC request │        
+     │            │────────────>│        
+     │            │             │        
+     │            │gRPC response│        
+     │            │<────────────│        
+     │            │             │        
+     │SIP response│             │        
+     │<───────────│             │        
+┌────┴─────┐  ┌───┴────┐ ┌──────┴───────────┐
+│SIP Client│  │EdgePort│ │Message Dispatcher│
+└──────────┘  └────────┘ └──────────────────┘
 ```
+
+While we show the Dispatcher, we could also use a Processor. Both components share the same protobuf. However, the Dispatcher is required when you expect multiple Processors or at least one Middleware.
+
+For example, if your use case requires having one Processor for SIP INVITE and another for SIP MESSAGE requests, you will need to use a Dispatcher. Similarly, if you want to use a Middleware, you will need to use a Dispatcher.
+
+If you only have one Processor and have not Middleware, you can use the Processor directly. Running the Processor directly will make your deployment simpler and faster.
 
 <!-- TODO: We should add more information how we automatically convert available ceritifcates to pkcs12 -->
 
@@ -211,7 +211,7 @@ Link to the [protobuf definition.](https://github.com/fonoster/routr/blob/main/m
 
 ## Launching the EdgePort with Docker
 
-The EdgePort is available as a Docker image from [Docker Hub](https://hub.docker.com/r/fonoster/edgeport). To launch the EdgePort with Docker, you can use the following command:
+The EdgePort is available as a Docker image from [Docker Hub](https://hub.docker.com/r/fonoster/routr-edgeport). To launch the EdgePort with Docker, you can use the following command:
 
 ```bash
 docker run -it -v $(pwd)/edgeport.yaml:/etc/routr/edgeport.yaml -p 5060:5060/udp fonoster/routr-edgeport
