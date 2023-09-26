@@ -37,8 +37,6 @@ If you only have one Processor and have not Middleware, you can use the Processo
 
 To configure the EdgePort, you must provide a YAML or JSON configuration with the following structure.
 
-Filename: `edgeport.yaml` or `edgeport.json`
-
 | Property                                   | Description                                                                 | Required |
 |--------------------------------------------|-----------------------------------------------------------------------------|----------|
 | `ref`                                      | Reference to the EdgePort                                                   | Yes      |
@@ -68,7 +66,9 @@ The security context is required if the EdgePort is configured to use a secure p
 
 > Please see JAINSIP docs for details on the security context [properties.](https://javadoc.io/doc/javax.sip/jain-sip-ri/1.2.220/gov/nist/javax/sip/SipStackImpl.html) 
 
-Here is an example of a full configuration file:
+Here is an example of a configuration file:
+
+Filename: `dispatcher.yaml` or `dispatcher.json`
 
 ```yaml
 kind: EdgePort

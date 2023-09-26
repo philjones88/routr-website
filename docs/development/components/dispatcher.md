@@ -31,25 +31,25 @@ The following diagram shows the relation between the EdgePort, the Message Dispa
 
 To configure the Dispatcher, you must provide a YAML or JSON configuration with the following structure.
 
-Filename: `dispatcher.yaml` or `dispatcher.json`
-
 You can configure the Dispatcher using a YAML or JSON file that has the following structure:
 
-| Property | Description | Required |
-|----------|-------------|----------|
-| `ref` | Reference to the Dispatcher | Yes |
-| `spec.bindAddr` | Ipv4 interface to accept requests on | No |
-| `spec.processors` | List of Processors | Yes |
-| `spec.processors[*].ref` | Reference to the Processor | Yes |
-| `spec.processors[*].matchFunc` | Matching function | Yes |
-| `spec.processors[*].addr` | Address of the Processor | Yes |
-| `spec.processors[*].methods` | List of SIP Methods supported by the Processor | Yes |
-| `spec.middlewares` | List of Middlewares | No |
-| `spec.middlewares[*].ref` | Reference to the Middleware | Yes |
-| `spec.middlewares[*].addr` | Address of the Middleware | Yes |
-| `spec.middlewares[*].postProcessor` | Weather to process the SIP Message after the Processor | Yes |
+| Property                             | Description                                               | Required |
+|--------------------------------------|-----------------------------------------------------------|----------|
+| `ref`                                | Reference to the Dispatcher                               | Yes      |
+| `spec.bindAddr`                      | Ipv4 interface to accept requests on                      | No       |
+| `spec.processors`                    | List of Processors                                        | Yes      |
+| `spec.processors[*].ref`             | Reference to the Processor                                | Yes      |
+| `spec.processors[*].matchFunc`       | Matching function                                         | Yes      |
+| `spec.processors[*].addr`            | Address of the Processor                                  | Yes      |
+| `spec.processors[*].methods`         | List of SIP Methods supported by the Processor            | Yes      |
+| `spec.middlewares`                   | List of Middlewares                                       | No       |
+| `spec.middlewares[*].ref`            | Reference to the Middleware                               | Yes      |
+| `spec.middlewares[*].addr`           | Address of the Middleware                                 | Yes      |
+| `spec.middlewares[*].postProcessor`  | Whether to process the SIP Message after the Processor    | Yes      |
 
 Here is an example of a configuration file:
+
+Filename: `dispatcher.yaml` or `dispatcher.json`
 
 ```yaml
 kind: MessageDispatcher
