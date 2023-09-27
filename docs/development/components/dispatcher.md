@@ -215,7 +215,7 @@ The previous example will pull the latest version of the Dispatcher from Docker 
 
 ## Quick Test with gRPCurl
 
-For testing and development purposes, one easy way to interact with the Dispatcher is to use [gRPCurl](https://github.com/fullstorydev/grpcurl). The following example shows how to send a SIP Message to the Dispatcher.
+One easy way to interact with the Dispatcher for testing and development is to use [gRPCurl](https://github.com/fullstorydev/grpcurl). The following example shows how to send a SIP Message to the Dispatcher.
 
 ```bash
 grpcurl -plaintext \

@@ -161,7 +161,7 @@ The previous example will pull the latest version of the Location Service from D
 
 ## Quick Test with gRPCurl
 
-One easy way to interact with the Location Service for testing and development purposes is to use [gRPCurl](https://github.com/fullstorydev/grpcurl). The following example shows how to send a request to the Location Service using gRPCurl:
+One easy way to interact with the Location Service for testing and development is to use [gRPCurl](https://github.com/fullstorydev/grpcurl). The following example shows how to send a request to the Location Service using gRPCurl:
 
 ```bash
 grpcurl -plaintext \
