@@ -1,3 +1,3 @@
 # Simple Auth Service
 
-Comin soon.
+Coming soon.

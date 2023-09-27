@@ -1,3 +1,3 @@
 # Simple Data Service
 
-Comin soon.
+Coming soon.

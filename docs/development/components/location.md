@@ -35,25 +35,25 @@ Every Asterisk server that registers using the `asterisk` username will join the
 
 To configure the Location Service, you must provide a YAML or JSON configuration with the following structure.
 
-| Property                             | Description                                          | Required |
-|--------------------------------------|------------------------------------------------------|----------|
-| `region`                             | (reserved for future use)                            |  Yes     |
-| `bindAddr`                           | Ipv4 interface to accept requests on                 | No       |
-| `cache`                              | Cache configuration                                  | Yes      |
-| `cache.provider`                     | Cache provider (Accepts `memory` and `redis` )       | No       |
-| `cache.parameters`                   | Cache parameters (Command separated key/value pairs) | No       |
+| Property           | Description                                         | Required |
+|--------------------|-----------------------------------------------------|----------|
+| `region`           | Reserved for future use                             | No       |
+| `bindAddr`         | IPv4 interface on which to accept requests          | No       |
+| `cache`            | Cache configuration                                 | No       |
+| `cache.provider`   | Cache provider (Accepts either `memory` or `redis`) | No       |
+| `cache.parameters` | Cache parameters (Comma-separated key-value pairs)  | No       |
 
 The `cache.parameters` property is only needed if you are using the Redis provider. 
 
 The following table shows the available parameters for the Redis provider.
 
-| Property                             | Description                            | Required |
-|--------------------------------------|----------------------------------------|----------|
-| `username`                           | Redis username (if required by Redis)  | No       |
-| `password`                           | Redis password (if required by Redis)  | No       |
-| `host`                               | Redis host (Defaults to `localhost`)   | No       |
-| `port`                               | Redis port (Defaults to `6379`)        | No       |
-| `secure`                             | Redis secure connection                | No       |
+| Property   | Description                         | Required |
+|------------|-------------------------------------|----------|
+| `username` | Username (if required by Redis)     | No       |
+| `password` | Password (if required by Redis)     | No       |
+| `host`     | Redis host (Defaults to `localhost`)| No       |
+| `port`     | Redis port (Defaults to `6379`)     | No       |
+| `secure`   | Use secure connection for Redis     | No       |
 
 Here is an example of a configuration file:
 
@@ -71,14 +71,14 @@ spec:
     parameters: "host=localhost,port=6379"
 ```
 
-Notice that using the memory provider will only work for simple cases where you run a single instance of the Location Service. Suppose you need the `least-session` algorithm and run multiple instances of the Location Service. In such cases, you will need a distributed provider such as Redis.
+Notice that using the `memory` provider will only work for simple cases where you run a single instance of the Location Service. Suppose you need the `least-session` algorithm and run multiple instances of the Location Service. In such cases, you will need the `redis` provider.
 
 ## Communication and Protobuf Spec
 
 Upstream service can communicate with the Location Service using gRPC. The following protobuf contains the definition of the Location Service API.
 
 ```protobuf
-yntax = "proto3";
+syntax = "proto3";
 
 package fonoster.routr.location.v2beta1;
 
@@ -146,6 +146,8 @@ message RemoveRoutesRequest {
 ```
 
 Upon receiving a valid `AddRoute` request, the Location Service will add the route to the location table. The structure of the new Route resembles that of the Route message in the protobuf definition.
+
+Link to the [protobuf definition.](https://github.com/fonoster/routr/blob/main/mods/common/src/protos/location.proto)
 
 ## Launching the Location Service with Docker
 
