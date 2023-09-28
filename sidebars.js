@@ -37,9 +37,8 @@ const sidebars = {
             'development/components/registry',
             'development/components/requester',
             'development/components/rtprelay',
-            // 'development/components/pgdata',
-            // 'development/components/simpledata',
-            // 'development/components/simpleauth',
+            'development/components/apiserver',
+            'development/components/simpleauth',
           ],
         },
         {

@@ -4,7 +4,7 @@ The Requester service is an optional service used when you want to reach an Edge
 
 ## Configuration Spec
 
-Unlike other components, the Requester service does not have a configuration file. However the following environment variables are available:
+The Requester service does not have a configuration file. However the following environment variables are available:
 
 - `BIND_ADDR` - Address to bind the service (Defaults to `0.0.0.0:51909`)
 - `ENABLE_HEALTHCHECKS` - Enable health checks (Defaults to `true`)

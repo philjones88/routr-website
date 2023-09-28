@@ -1,3 +1,0 @@
-# PostgreSQL Data
-
-Coming soon.
