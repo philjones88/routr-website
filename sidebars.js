@@ -51,8 +51,8 @@ const sidebars = {
             'development/alterations/methods',
           ],
         },
-        // 'development/building-a-processor',
-        // 'development/building-a-middleware',
+        'development/building-a-processor',
+        'development/building-a-middleware',
         // 'development/extending-the-apiserver',
         // 'development/extending-the-ctl',
         // 'development/orchestration-with-docker',
@@ -109,6 +109,17 @@ const sidebars = {
     },
     // {
     //   type: 'category',
+    //   label: 'Enterprise',
+    //   collapsible: true,
+    //   collapsed: true,
+    //   items: [
+    //     'enterprise/connecting-routr-to-aws-chime',
+    //     'enterprise/connecting-routr-microsoft-teams',
+    //     'enterprise/siprecording-with-routr+rtpengine',
+    //   ]
+    // },    
+    // {
+    //   type: 'category',
     //   label: 'Tutorials',
     //   collapsible: true,
     //   collapsed: true,
@@ -117,9 +128,8 @@ const sidebars = {
     //     'tutorials/intercom-system-with-routr-and-kubernetes',
     //     'tutorials/ephemeral-agents-in-the-browser',
     //     'tutorials/deploying-to-civo-with-helm',
-    //     // 'tutorials/connecting-routr-to-aws-chime',
-    //     // 'tutorials/connecting-routr-to-twilio',
-    //     // 'tutorials/connecting-routr-microsoft-teams',
+    //     'tutorials/deploying-to-docker-desktop-with-helm',
+    //     'tutorials/connecting-routr-to-twilio',
     //   ]
     // },
     'community',
