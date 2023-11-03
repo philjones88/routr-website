@@ -55,8 +55,6 @@ const sidebars = {
         'development/building-a-middleware',
         'development/custom-data-with-the-apiserver',
         'development/extending-the-ctl',
-        // 'development/orchestration-with-docker',
-        // 'development/orchestration-with-kubernetes',
         // 'development/testing-with-seet',
         // 'development/metrics-events-logs-and-traces',
         // 'development/building-a-chat-application',
