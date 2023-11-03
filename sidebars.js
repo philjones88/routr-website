@@ -53,7 +53,7 @@ const sidebars = {
         },
         'development/building-a-processor',
         'development/building-a-middleware',
-        // 'development/extending-the-apiserver',
+        'development/custom-data-with-the-apiserver',
         // 'development/extending-the-ctl',
         // 'development/orchestration-with-docker',
         // 'development/orchestration-with-kubernetes',
