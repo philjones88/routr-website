@@ -112,7 +112,7 @@ Link to the [protobuf definition.](https://github.com/fonoster/routr/blob/main/m
 
 ## Launching the SimpleAuth with Docker
 
-The RTPRelay is available as a Docker image from [Docker Hub](https://hub.docker.com/r/fonoster/routr-rtprelay). To launch the RTPRelay with Docker, you can use the following command:
+The SimpleAuth is available as a Docker image from [Docker Hub](https://hub.docker.com/r/fonoster/routr-simpleauth). To launch the SimpleAuth with Docker, you can use the following command:
 
 ```bash
 docker run -it \
