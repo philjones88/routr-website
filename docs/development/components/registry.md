@@ -93,4 +93,4 @@ The Registry Service is available as a Docker image from [Docker Hub](https://hu
 docker run -it -v $(pwd)/registry.yaml:/etc/routr/registry.yaml fonoster/routr-registry
 ```
 
-The previous example will pull the latest version of the Location Service from Docker Hub and launch it with the default configuration. The Registry Service will connect to the Requester service using the address `requester:51909` and the API service using the address `apiserver:51907`.
+The previous example will pull the latest version of the Registry Service from Docker Hub and launch it with the default configuration. The Registry Service will connect to the Requester service using the address `requester:51909` and the API service using the address `apiserver:51907`.
